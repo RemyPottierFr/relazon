@@ -10,14 +10,20 @@ export default defineConfig(({ mode }) => {
   loadEnv(mode, process.cwd());
   return {
     envDir: "./",
-    plugins: [vue(), vueJsx()],
+    plugins: [
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => tag === "rlz-",
+          },
+        },
+      }),
+      vueJsx(),
+    ],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
-    },
-    vueCompilerOptions: {
-      isCustomElement: (tag: any) => tag.startsWith("rlz-"),
     },
     build: {
       lib: {
