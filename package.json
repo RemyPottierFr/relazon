@@ -10,7 +10,8 @@
     ".": {
       "import": "./dist/relazon.es.js",
       "require": "./dist/relazon.umd.js"
-    }
+    },
+    "./": "./dist"
   },
   "scripts": {
     "dev": "vite",

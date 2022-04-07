@@ -1,6 +1,6 @@
 <script>
 import html2canvas from "html2canvas";
-// import { DisplayModal } from "@/components/index.js";
+
 const { DisplayModal } = () => import("@/components/index.js");
 import firebase from "firebase/compat";
 
