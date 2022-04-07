@@ -16,6 +16,9 @@ export default defineConfig(({ mode }) => {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
+    vueCompilerOptions: {
+      isCustomElement: (tag: any) => tag.startsWith("rlz-"),
+    },
     build: {
       lib: {
         entry: path.resolve(__dirname, "src/main.ts"),

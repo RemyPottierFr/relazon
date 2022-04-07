@@ -3,8 +3,6 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import "./index.css";
 import firebase from "firebase/compat";
-import { DisplayModal } from "@/components/DisplayModal.vue";
-import { BasicButton } from "@/components/Button.vue";
 
 type InitConfig = {
   containerId?: string;
@@ -31,8 +29,6 @@ export const container = window.document.createElement("div");
 
 export function init(config?: InitConfig) {
   const app = createApp(App);
-  app.component("DisplayModal", DisplayModal);
-  app.component("BasicButton", BasicButton);
   container.id = config?.containerId || defaultConfig.containerId || "";
   document.body.appendChild(container);
   app.use(createPinia());
