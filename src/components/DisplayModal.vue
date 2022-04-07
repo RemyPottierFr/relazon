@@ -43,7 +43,6 @@ import { XIcon } from "@heroicons/vue/outline";
 import BasicButton from "@/components/Button.vue";
 
 export default {
-  name: "display-modal",
   components: { BasicButton, XIcon },
   props: {
     open: Boolean,
@@ -51,6 +50,7 @@ export default {
     capture: [String],
     onSubmit: Function,
   },
+  name: "display-modal",
   data() {
     return {
       comment: "",
@@ -67,5 +67,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

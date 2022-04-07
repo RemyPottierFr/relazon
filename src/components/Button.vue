@@ -8,10 +8,7 @@
 export default {
   props: {
     type: String,
-    props: {},
   },
   name: "basic-button",
 };
 </script>
-
-<style scoped></style>
