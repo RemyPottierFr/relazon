@@ -50,20 +50,22 @@ export default {
       this.areaSelection = !this.areaSelection;
     },
     handleSelectFullScreen() {
-      this.startCapture({ useCORS: true });
+      this.startCapture();
     },
     startCapture(config = {}) {
-      html2canvas(document.body, config).then((canvas) => {
-        canvas.toBlob(
-          (b) => {
-            this.canvasBlob = b;
-          },
-          "image/jpeg",
-          0.95
-        );
-        this.capture = canvas.toDataURL();
-        this.modalOpen = true;
-      });
+      html2canvas(document.body, { useCORS: true, ...config }).then(
+        (canvas) => {
+          canvas.toBlob(
+            (b) => {
+              this.canvasBlob = b;
+            },
+            "image/jpeg",
+            0.95
+          );
+          this.capture = canvas.toDataURL();
+          this.modalOpen = true;
+        }
+      );
     },
     startSelection(event) {
       this.area = { ...this.area, x1: event.x, y1: event.y };
@@ -79,7 +81,6 @@ export default {
         y: top,
         width,
         height,
-        useCORS: true,
       });
       this.selectionStarted = false;
       this.area = baseArea;
