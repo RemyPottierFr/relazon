@@ -28,10 +28,10 @@
           class="w-full max-w-xl shadow border border-gray-50"
         />
         <div class="flex items-center justify-between w-full">
-          <basic-button type="button" @click="handleClose"
+          <BasicButton type="button" @click="handleClose"
             >Take another one
-          </basic-button>
-          <basic-button type="submit">send</basic-button>
+          </BasicButton>
+          <BasicButton type="submit">send</BasicButton>
         </div>
       </form>
     </div>

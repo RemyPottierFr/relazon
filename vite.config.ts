@@ -10,16 +10,7 @@ export default defineConfig(({ mode }) => {
   loadEnv(mode, process.cwd());
   return {
     envDir: "./",
-    plugins: [
-      vue({
-        template: {
-          compilerOptions: {
-            isCustomElement: (tag) => tag === "display-modal",
-          },
-        },
-      }),
-      vueJsx(),
-    ],
+    plugins: [vue(), vueJsx()],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),

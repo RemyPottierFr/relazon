@@ -1,8 +1,9 @@
 <script>
 import html2canvas from "html2canvas";
 
-const { DisplayModal } = () => import("@/components/index.js");
+const { DisplayModal } = () => import("@/components/");
 import firebase from "firebase/compat";
+import BasicButton from "@/components/Button";
 
 document.onmousemove = handleChangeBaseArea;
 
@@ -20,7 +21,7 @@ function handleChangeBaseArea(event) {
 }
 
 export default {
-  components: { DisplayModal },
+  components: { BasicButton, DisplayModal },
   data() {
     const firebaseStorage = firebase.storage();
     const firebaseDb = firebase.database().ref("captures");
@@ -138,12 +139,12 @@ export default {
       class="border border-red-500"
     ></div>
   </div>
-  <display-modal
+  <DisplayModal
     :open="modalOpen"
     :handleClose="handleClose"
     :capture="capture"
     :onSubmit="createNewTicket"
-  ></display-modal>
+  ></DisplayModal>
   <div
     data-html2canvas-ignore="true"
     class="z-[999] fixed bottom-1/2 transform -translate-y-1/2 right-4 transition-all ease-in duration-300"
@@ -158,7 +159,7 @@ export default {
       v-if="menuOpen"
       class="absolute top-14 right-0 bg-blue-300 rounded-mg px-4 py-2"
     >
-      <button @click="handleSelectArea">area</button>
+      <BasicButton @click="handleSelectArea">area</BasicButton>
       <button @click="handleSelectFullScreen">fullscreen</button>
     </div>
   </div>
