@@ -4,7 +4,10 @@ import App from "./App.vue";
 import "./index.css";
 import firebase from "firebase/compat";
 
-const app = createApp(App);
+type InitConfig = {
+  containerId?: string;
+  userToken?: string;
+};
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -17,10 +20,22 @@ const firebaseConfig = {
   databaseURL: import.meta.env.VITE_FIREBASE_DB,
 };
 
-firebase.initializeApp(firebaseConfig);
+const defaultConfig: InitConfig = {
+  containerId: "relazonContainer",
+  userToken: "",
+};
 
-app.use(createPinia());
-const relazonContainer = window.document.createElement("div");
-relazonContainer.id = "relazonContainer";
-document.body.appendChild(relazonContainer);
-app.mount("#relazonContainer");
+export const container = window.document.createElement("div");
+
+export function init(config?: InitConfig) {
+  const app = createApp(App);
+  container.id = config?.containerId || defaultConfig.containerId || "";
+  document.body.appendChild(container);
+  app.use(createPinia());
+  firebase.initializeApp(firebaseConfig);
+  app.mount("#relazonContainer");
+}
+
+if (import.meta.env.DEV) {
+  init();
+}

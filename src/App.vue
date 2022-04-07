@@ -1,6 +1,7 @@
 <script>
 import html2canvas from "html2canvas";
-import { DisplayModal } from "@/components/index.js";
+// import { DisplayModal } from "@/components/index.js";
+const { DisplayModal } = () => import("@/components/index.js");
 import firebase from "firebase/compat";
 
 document.onmousemove = handleChangeBaseArea;
@@ -23,7 +24,6 @@ export default {
   data() {
     const firebaseStorage = firebase.storage();
     const firebaseDb = firebase.database().ref("captures");
-
     return {
       menuOpen: false,
       area: baseArea,
@@ -50,7 +50,7 @@ export default {
       this.areaSelection = !this.areaSelection;
     },
     handleSelectFullScreen() {
-      this.startCapture();
+      this.startCapture({ useCORS: true });
     },
     startCapture(config = {}) {
       html2canvas(document.body, config).then((canvas) => {
@@ -79,6 +79,7 @@ export default {
         y: top,
         width,
         height,
+        useCORS: true,
       });
       this.selectionStarted = false;
       this.area = baseArea;
