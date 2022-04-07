@@ -1,9 +1,8 @@
 <script>
 import html2canvas from "html2canvas";
 
-const { DisplayModal } = () => import("@/components/");
+import { DisplayModal, BasicButton } from "@/components/index";
 import firebase from "firebase/compat";
-import BasicButton from "@/components/Button";
 
 document.onmousemove = handleChangeBaseArea;
 
