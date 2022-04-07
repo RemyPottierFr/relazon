@@ -1,7 +1,8 @@
 <script>
 import html2canvas from "html2canvas";
-
-import { BasicButton, BasicModal, DisplayModal } from "@/components/index";
+import { DesktopComputerIcon, ArrowsExpandIcon } from "@heroicons/vue/outline";
+import { XCircleIcon } from "@heroicons/vue/solid";
+import { DisplayModal } from "@/components/index";
 import firebase from "firebase/compat";
 
 document.onmousemove = handleChangeBaseArea;
@@ -20,12 +21,17 @@ function handleChangeBaseArea(event) {
 }
 
 export default {
-  components: { BasicModal, BasicButton, DisplayModal },
+  components: {
+    DisplayModal,
+    DesktopComputerIcon,
+    ArrowsExpandIcon,
+    XCircleIcon,
+  },
   data() {
     const firebaseStorage = firebase.storage();
     const firebaseDb = firebase.database().ref("captures");
     return {
-      menuOpen: false,
+      menuOpen: true,
       area: baseArea,
       areaSelection: false,
       selectionStarted: false,
@@ -149,20 +155,32 @@ export default {
   <!--  <BasicModal :open="modalOpen" />-->
   <div
     data-html2canvas-ignore="true"
-    class="z-[999] fixed bottom-1/2 text-black transform -translate-y-1/2 right-4 transition-all ease-in duration-300"
+    class="z-[999] fixed bottom-1/2 translate-y-1/2 flex items-start h-60 text-black right-0 transition-all ease-in duration-300"
   >
     <button
       @click="handleOpenMenu"
-      class="rounded-full w-12 h-12 bg-blue-200 border-none flex flex-col items-center justify-center"
+      style="transform: rotate(-90deg)"
+      :class="{ 'right-[5.5rem]': menuOpen, 'right-[2.5rem]': !menuOpen }"
+      class="rounded-t-md whitespace-nowrap focus:outline-none origin-top-right absolute z-10 transition-all ease-in duration-300 top-0 w-60 px-4 py-2 mb-full bg-blue-primary text-white border-none"
     >
-      R
+      add a review
     </button>
     <div
-      v-if="menuOpen"
-      class="absolute top-14 right-0 bg-blue-300 rounded-mg px-4 py-2"
+      :class="{
+        'translate-x-0': menuOpen,
+        'translate-x-full': !menuOpen,
+      }"
+      class="bg-gray-light h-full flex flex-col items-center justify-center gap-8 rounded-mg transform w-12 py-6 px-4 transition-all ease-in duration-300"
     >
-      <BasicButton @click="handleSelectArea">area</BasicButton>
-      <button @click="handleSelectFullScreen">fullscreen</button>
+      <button @click="handleOpenMenu">
+        <XCircleIcon class="w-6 h-6 text-blue-primary" />
+      </button>
+      <button @click="handleSelectArea">
+        <ArrowsExpandIcon class="w-6 h-6 text-blue-primary" />
+      </button>
+      <button @click="handleSelectFullScreen" title="fullscreen">
+        <DesktopComputerIcon class="w-6 h-6 text-blue-primary" />
+      </button>
     </div>
   </div>
 </template>
