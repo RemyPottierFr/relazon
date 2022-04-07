@@ -1,6 +1,6 @@
 {
   "name": "relazon",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "./dist/relazon.umd.js",
   "module": "./dist/relazon.es.js",
   "files": [
