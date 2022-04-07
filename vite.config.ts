@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
       vue({
         template: {
           compilerOptions: {
-            isCustomElement: (tag) => tag === "rlz-",
+            isCustomElement: (tag) => tag === "display-modal",
           },
         },
       }),
