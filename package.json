@@ -11,7 +11,7 @@
       "import": "./dist/relazon.es.js",
       "require": "./dist/relazon.umd.js"
     },
-    "./": "./dist"
+    "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
