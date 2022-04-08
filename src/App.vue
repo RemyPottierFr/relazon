@@ -38,7 +38,7 @@ export default {
     const firebaseStorage = firebase.storage();
     const firebaseDb = firebase.database().ref("captures");
     return {
-      menuOpen: true,
+      menuOpen: false,
       area: baseArea,
       areaSelection: false,
       selectionStarted: false,

@@ -1,7 +1,7 @@
 <template>
   <div
     v-show="open"
-    class="w-screen h-screen absolute top-0 left-0 bg-black/10 flex items-center justify-center py-12"
+    class="w-screen h-screen fixed top-0 left-0 bg-black/10 flex items-center justify-center py-12"
   >
     <div
       ref="content"
