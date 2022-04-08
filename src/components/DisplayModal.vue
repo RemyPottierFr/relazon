@@ -7,7 +7,7 @@
       ref="content"
       tabindex="0"
       @keyup.esc="handleClose"
-      class="bg-gray-light min-h-[50%] flex flex-col items-center overflow-hidden justify-center gap-8 rounded-lg py-10 px-6 w-full max-w-xl relative"
+      class="bg-gray-light min-h-[50%] flex flex-col pt-24 items-center overflow-hidden justify-center gap-8 rounded-lg py-10 px-6 w-full max-w-xl relative"
     >
       <button @click="handleClose" class="absolute z-10 top-4 right-4">
         <XIcon class="w-8 h-8 text-white" />
@@ -19,7 +19,7 @@
       </h1>
       <img
         v-if="capture"
-        class="shadow border border-gray-50"
+        class="shadow border border-gray-50 max-h-80"
         :src="capture"
         alt="display"
       />
@@ -27,12 +27,19 @@
         @submit.prevent="handleComment"
         class="w-full flex flex-col items-center"
       >
-        <textarea
-          v-model="comment"
-          class="w-full text-blue-light border-blue-primary focus:outline-none p-4 rounded-md max-w-xl shadow border border-gray-50"
-        />
+        <div class="w-full">
+          <label class="block text-sm font-medium text-blue-light"
+            >Your feedback</label
+          >
+          <div class="mt-1">
+            <textarea
+              v-model="comment"
+              class="shadow-sm w-full min-h-[5rem] focus:outline-none focus:border-blue-light block w-full sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
         <div class="flex items-center justify-between w-full">
-          <BasicButton type="button" @click="handleClose"
+          <BasicButton type="button" @click="handleNewCapture"
             >Take another one
           </BasicButton>
           <BasicButton type="submit">send</BasicButton>
@@ -51,6 +58,7 @@ export default {
   props: {
     open: Boolean,
     handleClose: Function,
+    handleNewCapture: Function,
     capture: [String],
     onSubmit: Function,
   },
@@ -65,7 +73,6 @@ export default {
   },
   methods: {
     handleComment() {
-      console.log({ comment: this.comment });
       this.onSubmit(this.comment);
     },
   },

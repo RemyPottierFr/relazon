@@ -1,9 +1,15 @@
 <script>
 import html2canvas from "html2canvas";
-import { DesktopComputerIcon, ArrowsExpandIcon } from "@heroicons/vue/outline";
+import {
+  DesktopComputerIcon,
+  ArrowsExpandIcon,
+  PencilIcon,
+} from "@heroicons/vue/outline";
 import { XCircleIcon } from "@heroicons/vue/solid";
 import { DisplayModal } from "@/components/index";
 import firebase from "firebase/compat";
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 
 document.onmousemove = handleChangeBaseArea;
 
@@ -26,6 +32,7 @@ export default {
     DesktopComputerIcon,
     ArrowsExpandIcon,
     XCircleIcon,
+    PencilIcon,
   },
   data() {
     const firebaseStorage = firebase.storage();
@@ -50,10 +57,27 @@ export default {
         this.areaSelection = false;
         this.capture = "";
         this.selectionStarted = false;
+        this.modalOpen = false;
       }
+    },
+    createCustomMouse(e) {
+      const mouseY = e.clientY;
+      const mouseX = e.clientX;
+      const mouseExternal = document.querySelector("#mouse-external");
+      const mouseInternal = document.querySelector("#mouse-internal");
+
+      mouseExternal.style.transform = `translate3d(calc(${mouseX}px - 1rem), calc(${mouseY}px - 1rem), 0)`;
+
+      mouseInternal.style.transform = `translate3d(calc(${mouseX}px - 2px), calc(${mouseY}px - 2rem), 0)`;
+    },
+    stopCustomMouse() {
+      window.removeEventListener("mousemove", this.createCustomMouse);
     },
     handleSelectArea() {
       this.areaSelection = !this.areaSelection;
+      if (this.areaSelection) {
+        window.addEventListener("mousemove", this.createCustomMouse);
+      }
     },
     handleSelectFullScreen() {
       this.startCapture();
@@ -70,8 +94,6 @@ export default {
           );
           this.capture = canvas.toDataURL();
           this.modalOpen = true;
-          const modalContainer = document.querySelector("#basic-modal");
-          modalContainer.appendChild(canvas);
         }
       );
     },
@@ -91,10 +113,16 @@ export default {
         height,
       });
       this.selectionStarted = false;
+      this.areaSelection = false;
       this.area = baseArea;
+      this.stopCustomMouse();
     },
     handleClose() {
       this.modalOpen = !this.modalOpen;
+    },
+    handleNewCapture() {
+      this.handleClose();
+      this.handleSelectArea();
     },
     async createNewTicket(comment) {
       this.firebaseStorage
@@ -111,6 +139,14 @@ export default {
         });
       this.handleClose();
       this.handleOpenMenu();
+      this.handleToast({
+        title: "success",
+        description: "your ticket has been created",
+        type: "success",
+      });
+    },
+    handleToast({ title = "", description = "", type = "info" }) {
+      createToast({ title, description }, { type });
     },
   },
   computed: {
@@ -136,14 +172,14 @@ export default {
     @mousedown="startSelection"
     @mousemove="updateSelection"
     @mouseup="stopSelection"
-    class="fixed top-0 select-none left-0 w-screen h-screen bg-black/30 cursor-crosshair"
+    class="fixed top-0 select-none left-0 w-screen h-screen bg-black/10 cursor-none"
     data-html2canvas-ignore="true"
   >
     <div
       v-if="selectionStarted"
       :style="selectionArea"
       id="capture"
-      class="border border-red-500"
+      class="border-2 border-blue-primary"
     ></div>
   </div>
   <DisplayModal
@@ -151,35 +187,59 @@ export default {
     :handleClose="handleClose"
     :capture="capture"
     :onSubmit="createNewTicket"
+    :handleNewCapture="handleNewCapture"
   ></DisplayModal>
-  <!--  <BasicModal :open="modalOpen" />-->
+  <div
+    v-if="areaSelection"
+    data-html2canvas-ignore="true"
+    class="pointer-events-none"
+  >
+    <div
+      id="mouse-external"
+      class="w-8 h-8 rounded-full border-2 border-blue-primary"
+    />
+    <div
+      id="mouse-internal"
+      class="w-1 h-1 rounded-full bg-blue-light transition-all duration-[25ms]"
+    />
+  </div>
   <div
     data-html2canvas-ignore="true"
-    class="z-[999] fixed bottom-1/2 translate-y-1/2 flex items-start h-60 text-black right-0 transition-all ease-in duration-300"
+    class="z-[999] fixed bottom-1/2 translate-y-1/2 flex items-start h-40 text-black right-0 transition-all ease-in duration-300"
   >
     <button
       @click="handleOpenMenu"
       style="transform: rotate(-90deg)"
       :class="{ 'right-[5.5rem]': menuOpen, 'right-[2.5rem]': !menuOpen }"
-      class="rounded-t-md whitespace-nowrap focus:outline-none origin-top-right absolute z-10 transition-all ease-in duration-300 top-0 w-60 px-4 py-2 mb-full bg-blue-primary text-white border-none"
+      class="rounded-t-md text-gray-light flex text-sm items-center h-10 justify-center gap-2 whitespace-nowrap focus:outline-none origin-top-right absolute z-10 transition-all ease-in duration-300 top-0 w-40 px-4 py-2 mb-full bg-blue-primary border-none"
     >
-      add a review
+      Add feedback
+      <PencilIcon class="w-4 h-4" />
     </button>
     <div
       :class="{
         'translate-x-0': menuOpen,
         'translate-x-full': !menuOpen,
       }"
-      class="bg-gray-light h-full flex flex-col items-center justify-center gap-8 rounded-mg transform w-12 py-6 px-4 transition-all ease-in duration-300"
+      class="bg-gray-light h-full flex flex-col items-center justify-center gap-6 rounded-mg transform w-12 py-6 px-4 transition-all ease-in duration-300"
     >
       <button @click="handleOpenMenu">
         <XCircleIcon class="w-6 h-6 text-blue-primary" />
       </button>
-      <button @click="handleSelectArea">
-        <ArrowsExpandIcon class="w-6 h-6 text-blue-primary" />
+      <button
+        :disabled="modalOpen"
+        @click="handleSelectArea"
+        class="disabled:text-gray-500 text-blue-primary"
+      >
+        <ArrowsExpandIcon class="w-6 h-6" />
       </button>
-      <button @click="handleSelectFullScreen" title="fullscreen">
-        <DesktopComputerIcon class="w-6 h-6 text-blue-primary" />
+      <button
+        :disabled="modalOpen || areaSelection"
+        @click="handleSelectFullScreen"
+        title="fullscreen"
+        class="disabled:text-gray-500 text-blue-primary"
+      >
+        <DesktopComputerIcon class="w-6 h-6" />
       </button>
     </div>
   </div>
