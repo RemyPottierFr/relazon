@@ -191,7 +191,7 @@ export default {
   ></DisplayModal>
   <div
     data-html2canvas-ignore="true"
-    class="pointer-events-none fixed"
+    class="pointer-events-none fixed left-0 top-0"
     :class="{ visible: areaSelection, invisible: !areaSelection }"
   >
     <div
