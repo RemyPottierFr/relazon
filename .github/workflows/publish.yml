@@ -13,9 +13,13 @@ jobs:
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: |
-          echo { { secrets.ENV_VARS } }
-          echo { { secrets.ENV_VARS } } > .env
+      - name: Add .env file
+        env:
+          ENV_VARS: ${{ secrets.ENV_VARS }}
+        run: |
+          echo $ENV_VARS
+          echo $ENV_VARS | base64 --decode
+          echo $ENV_VARS | base64 --decode > .env
       - name: Install dependencies and build 🔧
         run: npm install && npm run build
       - name: Publish package on NPM 📦
