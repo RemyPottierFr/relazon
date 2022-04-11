@@ -68,7 +68,7 @@ export default {
 
       mouseExternal.style.transform = `translate3d(calc(${mouseX}px - 1rem), calc(${mouseY}px - 1rem), 0)`;
 
-      mouseInternal.style.transform = `translate3d(calc(${mouseX}px - 2px), calc(${mouseY}px - 2rem), 0)`;
+      mouseInternal.style.transform = `translate3d(calc(${mouseX}px - 2px), calc(${mouseY}px - 2rem - 2px), 0)`;
     },
     stopCustomMouse() {
       window.removeEventListener("mousemove", this.createCustomMouse);
@@ -190,9 +190,9 @@ export default {
     :handleNewCapture="handleNewCapture"
   ></DisplayModal>
   <div
-    v-if="areaSelection"
     data-html2canvas-ignore="true"
-    class="pointer-events-none"
+    class="pointer-events-none fixed"
+    :class="{ visible: areaSelection, invisible: !areaSelection }"
   >
     <div
       id="mouse-external"

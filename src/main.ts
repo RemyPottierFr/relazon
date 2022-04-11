@@ -4,7 +4,7 @@ import App from "./App.vue";
 import "./index.css";
 import firebase from "firebase/compat";
 
-type InitConfig = {
+export type InitConfig = {
   containerId?: string;
   userToken?: string;
 };

@@ -1,6 +1,11 @@
 {
   "name": "relazon",
   "version": "1.1.5",
+  "description": "Relazon: easy feedbacks, easy fixes.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RemyPottierFr/relazon"
+  },
   "main": "./dist/relazon.umd.js",
   "module": "./dist/relazon.es.js",
   "files": [

@@ -1,46 +1,74 @@
-# relazon
+# Relazon 🚀
 
-This template should help get you started developing with Vue 3 in Vite.
+You need to have feedbacks on your front-end ? We are here for this
 
-## Recommended IDE Setup
+# Simple as it should be
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
+## Step 1
 
-## Type Support for `.vue` Imports in TS
+Install the package using npm
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```text
+npm install relazon
 ```
 
-### Compile and Hot-Reload for Development
+or Yarn
 
-```sh
-npm run dev
+```text
+yarn add relazon
 ```
 
-### Type-Check, Compile and Minify for Production
+## Step 2
 
-```sh
-npm run build
+Import it in the root of your code
+
+For example in your main.ts / index.js
+
+It can be imported in every framework because we used a vue application bundled who is independent of them
+
+```javascript
+// You can directly request the init function
+import {init} from 'relazon';
+// Or all methods once
+import * as Relazon from 'relazon'
+// Finish with the css
+import '../node_modules/relazon/dist/style.css';
+
+// Now just init it !
+init();
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Step 3
 
-```sh
-npm run lint
+### Customize your initialisation
+
+The init function accept an object like this
+
+```typescript jsx
+type InitConfig = {
+    containerId?: string;
+    userToken?: string;
+};
+
+init({
+    containerId: "the_ID_your_want",
+    userToken: "See your admin panel to obtain it" // Today you don't need it for the moment
+})
+```
+
+## Documentation
+
+### Exported functions :
+
+[```init()```](#step-2)
+
+```container``` it's the container node of the app, you can access it freely if you need to use it
+
+### Exported types :
+
+```typescript
+type InitConfig = {
+    containerId?: string;
+    userToken?: string;
+};
 ```
