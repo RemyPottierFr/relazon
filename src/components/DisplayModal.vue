@@ -6,10 +6,10 @@
     <div
       ref="content"
       tabindex="0"
-      @keyup.esc="handleClose"
+      @keyup.esc="closeModal"
       class="bg-gray-light min-h-[50%] flex flex-col pt-24 items-center overflow-hidden justify-center gap-8 rounded-lg py-10 px-6 w-full max-w-xl relative"
     >
-      <button @click="handleClose" class="absolute z-10 top-4 right-4">
+      <button @click="closeModal" class="absolute z-10 top-4 right-4">
         <XIcon class="w-8 h-8 text-white" />
       </button>
       <h1
@@ -19,7 +19,7 @@
       </h1>
       <img
         v-if="capture"
-        class="shadow border border-gray-50 max-h-80"
+        class="shadow border border-gray-50 max-h-80 my-auto"
         :src="capture"
         alt="display"
       />
@@ -34,7 +34,7 @@
           <div class="mt-1">
             <textarea
               v-model="comment"
-              class="shadow-sm w-full min-h-[5rem] focus:outline-none focus:border-blue-light block w-full sm:text-sm border-gray-300 rounded-md"
+              class="shadow-sm p-4 w-full min-h-[5rem] focus:outline-none focus:border-blue-light block w-full sm:text-sm border-gray-300 rounded-md"
             />
           </div>
         </div>
@@ -72,6 +72,10 @@ export default {
     this.$refs.content.focus();
   },
   methods: {
+    closeModal() {
+      this.comment = "";
+      this.handleClose();
+    },
     handleComment() {
       this.onSubmit(this.comment);
     },

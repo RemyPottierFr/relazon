@@ -79,10 +79,8 @@ export default {
         window.addEventListener("mousemove", this.createCustomMouse);
       }
     },
-    handleSelectFullScreen() {
-      this.startCapture();
-    },
     startCapture(config = {}) {
+      window.scrollTo(0, 0);
       html2canvas(document.body, { useCORS: true, ...config }).then(
         (canvas) => {
           canvas.toBlob(
@@ -97,6 +95,9 @@ export default {
         }
       );
     },
+    handleSelectFullScreen() {
+      this.startCapture();
+    },
     startSelection(event) {
       this.area = { ...this.area, x1: event.x, y1: event.y };
       this.selectionStarted = true;
@@ -106,11 +107,15 @@ export default {
     },
     stopSelection() {
       const { left, top, width, height } = this.currentArea;
+      const widthScale = width / window.innerWidth;
+      const heightScale = height / window.innerHeight;
+      const scale = width > height ? widthScale : heightScale;
       this.startCapture({
         x: left,
         y: top,
         width,
         height,
+        scale,
       });
       this.selectionStarted = false;
       this.areaSelection = false;
@@ -229,7 +234,7 @@ export default {
       <button
         :disabled="modalOpen"
         @click="handleSelectArea"
-        class="disabled:text-gray-500 text-blue-primary"
+        class="disabled:text-gray-500 disabled:cursor-not-allowed text-blue-primary"
       >
         <ArrowsExpandIcon class="w-6 h-6" />
       </button>
@@ -237,7 +242,7 @@ export default {
         :disabled="modalOpen || areaSelection"
         @click="handleSelectFullScreen"
         title="fullscreen"
-        class="disabled:text-gray-500 text-blue-primary"
+        class="disabled:text-gray-500 disabled:cursor-not-allowed text-blue-primary"
       >
         <DesktopComputerIcon class="w-6 h-6" />
       </button>
