@@ -16,10 +16,7 @@ jobs:
       - name: Add .env file
         env:
           ENV_VARS: ${{ secrets.ENV_VARS }}
-        run: |
-          echo $ENV_VARS
-          echo $ENV_VARS | base64 --decode
-          echo $ENV_VARS | base64 --decode > .env
+        run: echo $ENV_VARS | base64 --decode > .env
       - name: Install dependencies and build 🔧
         run: npm install && npm run build
       - name: Publish package on NPM 📦
