@@ -4,8 +4,9 @@ on:
     branches:
       - main
 jobs:
-  build:
+  version:
     runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
       - uses: actions/checkout@v2
         with:
@@ -14,6 +15,11 @@ jobs:
       - run: git config --global user.email 'remypottierpro@gmail.com'
       - name: Increment package version
         run: npm version patch -m "[RELEASE] %s"
+      - run: git push
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Setup Node 🖥️
         uses: actions/setup-node@v2
         with:
