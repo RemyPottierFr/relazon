@@ -10,11 +10,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - run: git config --global user.name 'AboutBits Tech'
-      - run: git config --global user.email 'tech@aboutbits.it'
+      - run: git config --global user.name 'RemyPottierFR'
+      - run: git config --global user.email 'remypottierpro@gmail.com'
       - name: Increment package version
         run: npm version patch -m "[RELEASE] %s"
-      - run: git push
       - name: Setup Node 🖥️
         uses: actions/setup-node@v2
         with:
