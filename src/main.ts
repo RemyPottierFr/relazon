@@ -1,12 +1,20 @@
+// @ts-nocheck
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 import "./index.css";
 import firebase from "firebase/compat";
 
+export type DefaultColors = {
+  primary: string;
+  primaryLight: string;
+  secondary: string;
+};
+
 export type InitConfig = {
   containerId?: string;
   userToken?: string;
+  colors: DefaultColors;
 };
 
 const firebaseConfig = {
@@ -20,15 +28,23 @@ const firebaseConfig = {
   databaseURL: import.meta.env.VITE_FIREBASE_DB,
 };
 
-const defaultConfig: InitConfig = {
+export const defaultColors: DefaultColors = {
+  primary: "#181925",
+  primaryLight: "#282A3E",
+  secondary: "#EDF2F4",
+};
+
+export let defaultConfig: InitConfig = {
   containerId: "relazonContainer",
   userToken: "",
+  colors: defaultColors,
 };
 
 export const container = window.document.createElement("div");
 
 export function init(config?: InitConfig) {
   const app = createApp(App);
+  defaultConfig = { ...config, ...defaultConfig };
   container.id = config?.containerId || defaultConfig.containerId || "";
   document.body.appendChild(container);
   app.use(createPinia());

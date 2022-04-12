@@ -52,7 +52,7 @@ type InitConfig = {
 
 init({
     containerId: "the_ID_your_want",
-    userToken: "See your admin panel to obtain it" // Today you don't need it for the moment
+    userToken: "See your admin panel to obtain it" // Today you don't need it
 })
 ```
 
